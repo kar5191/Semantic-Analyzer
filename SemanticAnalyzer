@@ -32,7 +32,7 @@ public class SemanticAnalyzer {
 	  }
 	  else
 		//  System.out.println("hello");
-		error(Parser.gui,1,Parser.tokens.get(Parser.currentToken).getLine());
+		error(Parser.getgui(),1,Parser.getlineno());
     // C. else error: â€œvariable id is already definedâ€?
 	  
   }

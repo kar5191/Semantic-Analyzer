@@ -13,7 +13,75 @@ public class SemanticAnalyzer {
   private static final Stack stack = new Stack();
   
   // create here a data structure for the cube of types
+  private static final int INT=0;
+  private static final int FLOAT=1;
+  private static final int CHAR=2;
+  private static final int STRING=3;
+  private static final int BOOLEAN=4;
+  private static final int VOID=5;
+  private static final int ERROR=6;
+  private static final int OK=10;
   
+  int a[][][]={
+		  		{{INT,FLOAT,ERROR,ERROR,ERROR,ERROR,ERROR},    //a[0][0][]
+		  		 {FLOAT,FLOAT,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		 {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		 {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		 {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		 {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		 {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR}}, //FOR {-,*,/}
+		  		
+		  		 {{INT,  FLOAT,ERROR,STRING,ERROR,ERROR,ERROR},//a[1][0][]
+		  		  {FLOAT,FLOAT,ERROR,STRING,ERROR,ERROR,ERROR},
+			  	  {ERROR,ERROR,ERROR,STRING,ERROR,ERROR,ERROR},
+			      {STRING,STRING,STRING,STRING,STRING,ERROR,ERROR},
+			  	  {ERROR,ERROR,ERROR,STRING,ERROR,ERROR,ERROR},
+			  	  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+			  	  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR}},//FOR +
+		  		 
+		  		 {{INT,FLOAT,ERROR,ERROR,ERROR,ERROR,ERROR}}, //FOR UNARY -  a[2][0][]
+		  		 
+		  		 {{BOOLEAN,BOOLEAN,ERROR,ERROR,ERROR,ERROR,ERROR}, //a[3][0][]
+		  		  {BOOLEAN,BOOLEAN,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR}}, //FOR <,>
+		  		  
+		  		 {{BOOLEAN,BOOLEAN,ERROR,ERROR,ERROR,ERROR,ERROR}, //a[4][0][]
+			  	  {BOOLEAN,BOOLEAN,ERROR,ERROR,ERROR,ERROR,ERROR}, 
+			  	  {ERROR,ERROR,BOOLEAN,ERROR,ERROR,ERROR,ERROR},
+		  		  {ERROR,ERROR,ERROR,BOOLEAN,ERROR,ERROR,ERROR},
+		  		  {ERROR,ERROR,ERROR,ERROR,BOOLEAN,ERROR,ERROR},
+		  		  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+		  		  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR}}, //FOR !=,==
+		  		  
+		  		 {{ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},   //a[5][0][]
+			  	  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+			  	  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+			  	  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+			  	  {ERROR,ERROR,ERROR,ERROR,BOOLEAN,ERROR,ERROR},
+			  	  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
+			  	  {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR}},  //FOR &, !
+		  		
+			  	{{ERROR,ERROR,ERROR,ERROR,BOOLEAN,ERROR,ERROR}}, //FOR UNARY !  a[6][0][]
+			  	
+			  	{{OK,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},  //a[7][0][]
+			  	 {OK,OK,ERROR,ERROR,ERROR,ERROR,ERROR},
+			  	 {ERROR,ERROR,OK,ERROR,ERROR,ERROR,ERROR},
+			  	 {ERROR,ERROR,ERROR,OK,ERROR,ERROR,ERROR},
+			  	 {ERROR,ERROR,ERROR,ERROR,OK,ERROR,ERROR},
+			  	 {ERROR,ERROR,ERROR,ERROR,ERROR,OK,ERROR},
+			  	 {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR}}  //FOR =
+		  		 
+		  		 
+  };
+  
+  public static Stack getStack()
+  {
+	  return stack;
+  }
   public static Hashtable<String, Vector<SymbolTableItem>> getSymbolTable() {
 	 
     return symbolTable;
@@ -39,6 +107,8 @@ public class SemanticAnalyzer {
 
   public static void pushStack(String type) {
   
+	  stack.push(type);
+	  System.out.println(stack);
     // push type in the stack
   }
   

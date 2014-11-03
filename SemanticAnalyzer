@@ -21,8 +21,10 @@ public class SemanticAnalyzer {
   private static final int VOID=5;
   private static final int ERROR=6;
   private static final int OK=10;
+  private static final int PLUS=1;
+  private static final int MINUS=2;
   
-  int a[][][]={
+ static int a[][][]={
 		  		{{INT,FLOAT,ERROR,ERROR,ERROR,ERROR,ERROR},    //a[0][0][]
 		  		 {FLOAT,FLOAT,ERROR,ERROR,ERROR,ERROR,ERROR},
 		  		 {ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR},
@@ -113,7 +115,8 @@ public class SemanticAnalyzer {
   }
   
   public static String popStack() {
-    String result="";
+    String result=(String) stack.pop();
+    System.out.println(result);
     // pop a value from the stack
     return result;
   }
@@ -125,9 +128,21 @@ public class SemanticAnalyzer {
     return result;
   }
 
-  private String calculateCube(String type1, String type2, String operator) {
+  public static String calculateCube(String type1, String type2, String operator) {
     String result="";
+    int op=0;
+    int t1=0;
+    int t2=0;
+    if(operator.equals("+"))
+    	op=PLUS;
+
+    if(type1.equals("int")||type1.equals("INTEGER"))
+    	t1=INT;
+    if(type2.equals("INTEGER")||type2.equals("int"))
+    	t2=INT;
+    result=Integer.toString(a[op][t1][t2]);
     // binary operator ( - and !)
+    if(result.equals("0")) result="INTEGER";
     return result;
   }
   

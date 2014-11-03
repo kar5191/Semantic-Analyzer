@@ -602,26 +602,43 @@ public class Parser {
 	  parent.add(node);	
 	  error = rule_A(node);
 	 // System.out.println("In E");
-
+	  int flag=1;
+	  String type1=new String();
+	  String type2=new String();
+	  String operator = new String();
 	  while (currentToken < tokens.size() && tokens.get(currentToken).getWord().equals("+") || currentToken < tokens.size() && tokens.get(currentToken).getWord().equals("-")) {
 
 		  if (currentToken < tokens.size() && tokens.get(currentToken).getWord().equals("+")) {
+			  operator=tokens.get(currentToken).getWord();
 			  node = new DefaultMutableTreeNode("+");
 			  parent.add(node);
 			  currentToken++;
 			  node = new DefaultMutableTreeNode("A");
 			  parent.add(node);
 			  error = rule_A(node);
+			  flag++;
 		  } 
 		  
 		  else if (currentToken < tokens.size() && tokens.get(currentToken).getWord().equals("-")) {
+			  operator=tokens.get(currentToken).getWord();
 			  node = new DefaultMutableTreeNode("-");
 			  parent.add(node);
 			  currentToken++;
 			  node = new DefaultMutableTreeNode("A");
 			  parent.add(node);
 			  error = rule_A(node);
+			  flag++;
 		  }
+		  
+		  if(flag==2)
+		  {  type1=SemanticAnalyzer.popStack();
+		  	 type2=SemanticAnalyzer.popStack();
+		  	 System.out.println("result: " +SemanticAnalyzer.calculateCube(type1,type2,operator));
+		  	 SemanticAnalyzer.pushStack(SemanticAnalyzer.calculateCube(type1,type2,operator));
+		  	 flag=1;
+		  	 
+		  }
+		  else{System.out.println("hi you are in else"); flag=1;}
 	  }
 	  return error;
   }

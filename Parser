@@ -41,6 +41,7 @@ public class Parser {
     //
     gui.writeSymbolTable(SemanticAnalyzer.getSymbolTable());
     SemanticAnalyzer.getSymbolTable().clear();
+    SemanticAnalyzer.getStack().clear();
     return root;
 
   }
@@ -252,6 +253,7 @@ public class Parser {
 	  }//while   
 	  return error;
   }
+  
 
   
   private static boolean rule_assignment(DefaultMutableTreeNode parent)
@@ -262,6 +264,12 @@ public class Parser {
 	  node=new DefaultMutableTreeNode("identifier" + "(" + tokens.get(currentToken).getWord() +")");
 	  parent.add(node);
 	  //if(currentToken<tokens.size())
+	  String s=tokens.get(currentToken).getWord();
+	  if(SemanticAnalyzer.getSymbolTable().get(s) != null)
+		  SemanticAnalyzer.pushStack(SemanticAnalyzer.getSymbolTable().get(s).firstElement().getType());		  
+	  else
+		  SemanticAnalyzer.pushStack("ERROR");
+	  
 	  currentToken++;
 	  if(currentToken<tokens.size()&&tokens.get(currentToken).getWord().equals("="))
 	  {
@@ -750,10 +758,13 @@ public class Parser {
     	  error(7);
     } 
     
+    
     else {
       error(9);
  
     }
+    
+    SemanticAnalyzer.pushStack(tokens.get(currentToken-1).getToken());
 
     return false;
   }
